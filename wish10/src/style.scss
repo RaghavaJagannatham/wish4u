@@ -1,0 +1,225 @@
+// TYPOGRAPHY
+@import url('https://fonts.googleapis.com/css?family=Codystar|Quicksand:300,400,700');
+$main-font: 'Quicksand', sans-serif;
+$dot-font: 'Codystar', cursive;
+
+// COLORS
+// Grayscale:
+$white: #fff; $gray: #777; $black: #000;
+// Palette: 
+//https://coolors.co/eeeeff-7f7caf-9fb4c7-41277c-9fb798
+$palette: #EEEEFF, #7F7CAF, #9FB4C7, #41277C, #9FB798;
+
+// Particle setting
+$particle-count: 50;
+$particle-size: .25rem;
+$particle-distance: 500px;
+$particle-min-speed: 15000;  // ms
+$particle-max-speed: 20000; // ms
+$particle-max-delay: 12000; // ms
+
+
+// Helper to use your palette
+@function palette($col){
+  @return nth($palette, $col);
+}
+
+// Pre-made pseudo-elements
+@mixin pseudo-ready($position: absolute){
+  position: relative;
+  &::before, &::after{
+    content: '';
+    position: $position;
+  }
+}
+
+// GENERAL
+*, *::before, *::after{
+  box-sizing: border-box;
+}
+body{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 3rem;
+  font-family: $main-font;
+  font-size: 16px;
+  color: $gray;
+  background: darken(palette(4), 10%);
+}
+h1, h2, h3, h4, h5, h6{
+  margin-top: 0;
+  font-weight: normal;
+}
+
+
+
+/*** <--- DEMO STYLES ---> ***/
+.wrapper{
+  position: relative;
+}
+
+#scene{
+  position: relative;
+  overflow: hidden;
+  width: 500px;
+  max-width: 100%;
+  min-height: 500px;
+  border-radius: 50%;
+  background: palette(4);
+  &::after{
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 50%;
+    top: 0; left: 0;
+    background: rgba($white, .025);
+  }
+}
+
+.text{
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0;
+  width: 100%;
+  text-align: center;
+  h1{
+    font-size: 3.5em;
+    font-weight: 700;
+    line-height: 40px;
+    color: palette(1);
+    text-shadow: 0 0 1px palette(4), 0 0 15px rgba(palette(1), .85);
+  }
+  h2{
+    font-weight: 700;
+    font-size: 2.5em;
+    color: palette(5);
+  }
+}
+
+.snow{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  .flake{
+    opacity:0;
+    position: absolute;
+    top: -$particle-size;
+    width: $particle-size;
+    height: $particle-size;
+    background-color:rgba($white ,0.5);
+    border-radius:50%;
+    
+    // Randomize bubles
+    @for $i from 1 through $particle-count{
+      
+      // random animation speed
+      $speed: random($particle-max-speed) + 0ms;
+      @if $speed < $particle-min-speed{
+        $speed: $particle-min-speed + 0ms;
+      }
+        
+      &:nth-child(#{$i}){
+        left: random(100) + 0%;
+        animation: blow $speed ease-in infinite;
+        animation-delay: random($particle-max-delay) + 0ms;
+      }
+    }
+      
+  }
+}
+
+.tree{
+  @include pseudo-ready();
+  position: absolute;
+  &.one{
+    bottom: 30%;
+    left: 47%; 
+    opacity: 0.7;
+  }
+  &.two{
+    transform: scale(.8);
+    bottom: 28%;
+    left: 80%;
+    opacity: 0.4;
+  }
+  &.three{
+    transform: scale(.6);
+    bottom: 26%;
+    left: 70%;
+    opacity: 0.2;
+  }
+  &.four{
+    transform: scale(.8);
+    bottom: 28%;
+    left: 20%;
+    opacity: 0.5;
+  }
+  &.five{
+    transform: scale(.6);
+    bottom: 26%;
+    left: 38%;
+    opacity: 0.2;
+  }
+  &::before{
+    border: 20px solid transparent;
+    border-bottom: 30px solid palette(1);
+  }
+  &::after{
+    top: -10px;
+    border: 20px solid transparent;
+    border-bottom: 30px solid palette(1);
+  }
+}
+
+.platform{
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 400px;
+  height: 100px;
+  padding-top: 50px;
+  background: darken(palette(4), 10%);
+  border-radius: 0 0 5px 5px;
+  &::before{
+    content:'';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 30px;
+    background: palette(3);
+    border-radius: 0 0 5px 5px;
+  }
+  .quote{
+    padding: 0 1rem;
+    font-family: $dot-font;
+    font-size: 1.8em;
+    text-align: center;
+    line-height: 1.4;
+    color: palette(5);
+  }
+}
+
+@keyframes blow {
+   0% {
+      opacity: 0;
+      transform:translate(0, 0);
+   }
+   20% { 
+      opacity: .5;
+   }
+   100% {
+      opacity: .5;
+      transform:translate(0, $particle-distance);
+   }
+}
+
+@media all and (max-width: 520px){
+  .wrapper{
+    transform: scale(.6);
+  }
+}
