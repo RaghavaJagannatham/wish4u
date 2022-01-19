@@ -1,7 +1,7 @@
 function makeTimer() {
 
 	//		var endTime = new Date("29 April 2018 9:56:00 GMT+01:00");	
-		var endTime = new Date("21 January 2022 00:00:00 GMT+05:30");			
+		var endTime = new Date("20 January 2022 00:00:00 GMT+05:30");			
 			endTime = (Date.parse(endTime) / 1000);
 			
 			// console.log(Date());
@@ -52,8 +52,8 @@ function makeTimer() {
             console.log("Month" + mt);
             console.log("Year" + yr);
             
-            if(dt >= 21 && mt >=0 && yr >2021)
-            // if(dt<=21)
+            // if(dt <= 21 && mt >=0 && yr >2021)
+            if(dt<=21)
             {
 
             
